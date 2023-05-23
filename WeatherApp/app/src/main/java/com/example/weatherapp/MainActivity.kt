@@ -4,15 +4,14 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.currentComposer
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.Alignment
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -57,13 +56,23 @@ fun MainScreen(navController: NavController){
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        Greeting("Android")
-        Button(onClick = { navController.navigate((Screen.SecondPage.route)) },
-        modifier = Modifier.size(width = 200.dp, height = 60.dp)) {
-            Text(text = "BUTTON PRESS IT")
+        Column( modifier =  Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+            ){
+            Greeting("Giant Button")
+            Button(onClick = { navController.navigate("second_page") },
+                modifier = Modifier
+                    .padding(top = 16.dp)
+                    .size(width=200.dp, height=60.dp)
+            ){
+                Text(text = "Open Second Page")
+            }
         }
+
     }
 }
+
 
 @Composable
 fun SecondScreen (navController: NavController){
@@ -71,7 +80,22 @@ fun SecondScreen (navController: NavController){
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        Text(text = "made it to second page", modifier = Modifier.clickable { navController.popBackStack() })
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Greeting("The Button Returns You")
+            Button(
+                onClick = { navController.navigate("main") },
+                modifier = Modifier
+                    .padding(top = 16.dp)
+                    .size(width = 200.dp, height = 60.dp)
+            ) {
+                Text(text = "Open First Page")
+            }
+        }
+
     }
 }
 @Composable
@@ -80,4 +104,13 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
         text = "Hello $name!",
         modifier = modifier
     )
+}
+
+@Preview (showBackground = true)
+@Composable
+
+fun HomeScreenPreview() {
+    WeatherAppTheme {
+        MainScreen(navController = rememberNavController() )
+    }
 }
