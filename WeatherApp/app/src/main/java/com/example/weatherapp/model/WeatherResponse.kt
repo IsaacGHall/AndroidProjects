@@ -14,12 +14,15 @@ data class Location(
     val countryName: String,
 
     @SerializedName("region") //region
-    val region: String
+    val regionName: String
 )
 
 data class CurrentWeather(
     @SerializedName("temp_c") //temp in c
     val temperatureCelsius: Double,
+
+    @SerializedName("temp_f") //temp in f
+    val temperatureFahrenheit: Double,
 
     @SerializedName("condition") //to be used later, weather conditions
     val condition: Condition,
