@@ -41,18 +41,23 @@ class WeatherViewModel : ViewModel() {
     private val _isDataAvail = MutableLiveData<Boolean>()
     val isDataAvail: LiveData<Boolean> get() = _isDataAvail
 
-    //this may be unnecessary, will look into next session.
-    init{
-        viewModelScope.launch {
-           // fetchWeatherData()
-        }
+    private val _latitude = MutableLiveData<Double>()
+    val latitude: LiveData<Double> get() = _latitude
 
-    }
+    private val _longitude = MutableLiveData<Double>()
+    val longitude: LiveData<Double> get() = _longitude
+
+
     //allows use as a public function instead of causing private function issues.
     fun fetchWeatherData (location: String){
         viewModelScope.launch {
             fetchWeatherDataInternal(location)
         }
+    }
+
+    fun fetchWeatherDataByCoordinates(latitude: Double, longitude: Double) {
+        val location = "$latitude,$longitude"
+        fetchWeatherData(location)
     }
     //function to fetch API data. is read to console log.
     private suspend fun fetchWeatherDataInternal(location: String) {
@@ -78,6 +83,10 @@ class WeatherViewModel : ViewModel() {
                         _region.postValue(it.location.regionName)
                         _country.postValue(it.location.countryName) //and here
                         _isDataAvail.postValue(true)
+                        _latitude.postValue(it.location.latitude)
+                        _longitude.postValue(it.location.longitude)
+                        Log.d("GPS Coords: ", "${it.location.latitude}, ${it.location.longitude}")
+
                     }
 
                 } else {

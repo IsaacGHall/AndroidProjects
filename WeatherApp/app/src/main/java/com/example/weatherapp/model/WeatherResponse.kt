@@ -14,7 +14,13 @@ data class Location(
     val countryName: String,
 
     @SerializedName("region") //region
-    val regionName: String
+    val regionName: String,
+
+    @SerializedName("lat")
+    val latitude: Double,
+
+    @SerializedName("lon")
+    val longitude: Double
 )
 
 data class CurrentWeather(
